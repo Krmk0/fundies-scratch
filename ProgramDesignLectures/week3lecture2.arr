@@ -1,5 +1,6 @@
 use context dcic2024
 include csv
+include data-source
 
 #|workouts = table: date :: String, activity :: String, duration :: Number
   row: "2026-04-01", "Running", 30
@@ -62,4 +63,13 @@ recipes = load-table:
   servings :: Number,
   prep-time :: Number
   source: csv-table-url("https://raw.githubusercontent.com/NU-London/LCSCI4207-datasets/refs/heads/main/recipes.csv", default-options)
+  sanitize servings using num-sanitizer
+  sanitize prep-time using num-sanitizer
 end
+
+#include csv and data-source
+recipes
+
+recipes.length()
+
+mean(recipes, "prep-time")
