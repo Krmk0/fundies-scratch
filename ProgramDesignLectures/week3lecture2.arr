@@ -73,3 +73,34 @@ recipes
 recipes.length()
 
 mean(recipes, "prep-time")
+
+
+plants = load-table:
+  plantname :: String,
+  latitude :: Double,
+  longitute :: Double,
+  date :: String,
+  soil :: String,
+  height :: Double,
+  color :: String
+  source: csv-table-url("https://raw.githubusercontent.com/NU-London/LCSCI4207-datasets/refs/heads/main/plant_sightings.csv", default-options)
+end
+
+plants
+
+plants.length()
+plants.row-n(99)
+plants.get-column("plantname")
+
+
+glucose = load-table:
+  patient_id :: Number,
+  glucose_level :: Double,
+  date :: String,
+  dose :: Double,
+  exercise :: Double,
+  stress :: Number
+  source: csv-table-file("glucose_levels.csv", default-options)
+end
+
+glucose
