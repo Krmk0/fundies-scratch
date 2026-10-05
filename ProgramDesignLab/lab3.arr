@@ -1,4 +1,6 @@
-use context starter2024
+use context dcic2024
+include csv
+include data-source
 
 # Exercise 1
 fun leapyear(year :: Number):
@@ -36,8 +38,6 @@ where:
   tick(1.2) is 0
 end
 
-tick(59)
-
 
 # Exercise 3
 fun rps(c1 :: String, c2 :: String) -> String:
@@ -72,3 +72,9 @@ planets = table: name :: String, distance :: Number
   row: "Uranus", 19.2
   row: "Neptune", 30.06
 end
+
+mars = planets.row-n(3)
+mars["distance"]
+
+
+# Exercise 5
