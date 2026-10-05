@@ -35,7 +35,7 @@ where:
   tick(59) is 0
   tick(0) is 1
   tick(-1) is 0
-  tick(1.2) is 0
+  tick(1.2) is 0 #Should fail
 end
 
 
