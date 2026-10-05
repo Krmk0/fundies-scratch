@@ -62,7 +62,7 @@ end
 
 
 # Exercise 4
-planets = table: name :: String, distance :: Number
+planets = table: planet :: String, distance :: Number
   row: "Mercury",	0.39
   row: "Venus", 0.72
   row: "Earth", 1
@@ -78,3 +78,36 @@ mars["distance"]
 
 
 # Exercise 5
+something = load-table:
+  year :: Number,
+  day :: Number,
+  month :: String,
+  rate :: Number
+  source: csv-table-file("boe_rates.csv", default-options)
+  sanitize year using num-sanitizer
+  sanitize day using num-sanitizer
+  sanitize month using string-sanitizer
+  sanitize rate using num-sanitizer
+end
+
+something.length()
+median(something, "rate")
+modes(something, "rate")
+
+ascending-ordered = order something:
+  year ascending,
+  day ascending,
+  month ascending,
+  rate ascending
+end
+
+ascending-ordered.row-n(0)
+
+descending-ordered = order something:
+  year descending,
+  day descending,
+  month descending,
+  rate descending
+end
+
+descending-ordered.row-n(0)
