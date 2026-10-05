@@ -24,7 +24,7 @@ end
 
 # Exercise 2
 fun tick(n :: NumInteger) -> NumInteger:
-  doc: "Gives the next second in a minute"
+  doc: "Gives the next second value in a minute"
   
   if (n >= 0) or (n <= 59):
   num-modulo(n + 1, 60)
@@ -41,7 +41,7 @@ end
 
 # Exercise 3
 fun rps(c1 :: String, c2 :: String) -> String:
-  doc: "Compares 2 values according to rock paper scissors"
+  doc: "Compares 2 values according to rock paper scissors rules"
   
   ask:
     | c1 == c2 then: "tie"
