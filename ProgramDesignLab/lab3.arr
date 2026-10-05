@@ -94,20 +94,7 @@ something.length()
 median(something, "rate")
 modes(something, "rate")
 
-ascending-ordered = order something:
-  year ascending,
-  day ascending,
-  month ascending,
-  rate ascending
-end
-
-ascending-ordered.row-n(0)
-
-descending-ordered = order something:
-  year descending,
-  day descending,
-  month descending,
-  rate descending
-end
-
-descending-ordered.row-n(0)
+asc = order-by(something, "rate", true)
+dsc = order-by(something, "rate", false)
+asc.row-n(0)
+dsc.row-n(0)
