@@ -1,5 +1,6 @@
 use context dcic2024
 include csv
+include data-source
 
 orders = table: time, amount
   row: "08:00", 10.50
@@ -31,3 +32,38 @@ asc = order-by(orders, "amount", true) # true = ascending
 dsc = order-by(orders, "amount", false) # false = descending
 
 
+
+# Exercise 1
+
+fun is-morning(r :: Row) -> Boolean:
+  r["time"] <= "12:00"
+where:
+  is-morning(orders.row-n(2)) is true
+end
+
+
+only-mornings = filter-with(orders, is-morning)
+
+only-mornings-lam = filter-with(orders, lam(r :: Row): r["time"] <= "12:00" end)
+
+sorted-time = order-by(orders, "time", false)
+
+
+# Exercise 2
+
+photos = load-table:
+  Location :: String,
+  Subject :: String,
+  Date :: String
+  source: csv-table-file("photos.csv", default-options)
+  sanitize Date using string-sanitizer
+  sanitize Subject using string-sanitizer
+end
+
+forest-filtered = filter-with(photos, lam(r :: Row): r["Subject"] == "Forest" end)
+
+forest-sorted = order-by(forest-filtered, "Date", true)
+forest-sorted.row-n(0)["Location"]
+
+location-count = count(forest-sorted, "Location")
+location-sorted = order-by(location-count, "count", false)
