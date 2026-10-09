@@ -48,3 +48,30 @@ billed
 #build-column(name of table, "new column name", func or lam)
 #transform-column(name of table, "name of value to change", func or lam)
 
+# Exercises
+
+# E 1
+
+items = table: item :: String, x-coordinate :: Number, y-coordinate :: Number
+  row: "Sword of Dawn",           23,  -87
+  row: "Healing Potion",         -45,   12
+  row: "Dragon Shield",           78,  -56
+  row: "Magic Staff",             -9,   64
+  row: "Elixir of Strength",      51,  -33
+  row: "Cloak of Invisibility",  -66,    5
+  row: "Ring of Fire",            38,  -92
+  row: "Boots of Swiftness",     -17,   49
+  row: "Amulet of Protection",    82,  -74
+  row: "Orb of Wisdom",          -29,  -21
+end
+
+items-closer = items
+  .transform-column("x-coordinate", lam(r :: Number): r * 0.9 end)
+  .transform-column("y-coordinate", lam(r :: Number): r * 0.9 end)
+
+
+with-distance = build-column(items-closer, "distance",
+  lam(r :: Row): (r["x-coordinate"] * r["x-coordinate"]) + (r["y-coordinate"] * r["y-coordinate"]) end)
+
+sorted-distance = order-by(with-distance, "distance", true)
+sorted-distance.row-n(0)
