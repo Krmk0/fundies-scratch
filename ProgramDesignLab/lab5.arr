@@ -101,9 +101,9 @@ end
 # Create a new column called dedup_key that concatenates these three string values as a single string (e.g., "1053-UA-18:00").
 # Normalizes time by converting the values to string, but also checking if the minutes are 0, if they are to add one more 0. Then we combine them.
 
-new-column = build-column(build-column(build-column(fixed-flights, "dedup-key", lam(row :: Row):
+new-column = build-column(build-column(build-column(fixed-flights, "number-clean", lam(row :: Row):
       num-to-string(row["flight"]) end), "carrier-clean", lam(row :: Row): 
-    trim(row["carrier"]) end), "time-clean", lam(row :: Row):
+    string-to-upper(trim(row["carrier"])) end), "time-clean", lam(row :: Row):
     hour = num-to-string(row["hour"])
     minute = row["minute"]
     
@@ -115,5 +115,57 @@ new-column = build-column(build-column(build-column(fixed-flights, "dedup-key", 
     end
   end)
       
-new-column
-    
+# New dedup-key column
+flights-with-key = build-column(new-column, "dedup-key", lam(row :: Row):
+  row["number-clean"] + "-" + row["carrier-clean"] + "-" + row["time-clean"] end)
+
+flights-with-key
+
+
+# Group rows that have the same key
+grouped-flights = group(flights-with-key, "dedup-key")
+
+# Count occurrences of each key
+flight-counts = count(flights-with-key, "dedup-key")
+
+# Keep only keys that occur more than once
+duplicates = filter-with(flight-counts,
+  lam(row :: Row):
+    row["count"] > 1
+  end)
+
+duplicates
+
+# Frequecy bar chart
+freq-bar-chart(flights-with-key, "carrier-clean")
+
+# Histogram
+histogram(flights-with-key, "distance", 100)
+
+# Distance on the x-axis, air time on the y-axis
+scatter-plot(flights-with-key, "distance", "air_time")
+
+# Extract as list
+list1 = flights-with-key.get-column("distance")
+
+
+
+# Calculate total, average, and maximum
+var total = 0
+var maximum = 0
+
+for each(dist from list1) block:
+  total := total + dist
+
+  if dist > maximum:
+    maximum := dist
+  else:
+    nothing
+  end
+end
+
+average = total / length(list1)
+
+total
+average
+maximum
