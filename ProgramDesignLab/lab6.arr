@@ -1,5 +1,9 @@
 use context dcic2024
 
+# Matej Petkovski
+
+
+
 # Task 1
 
 
@@ -22,7 +26,7 @@ minute-rate :: Number = 0.15
 
 # ride cost function
 fun ride-cost(l :: Number, p :: Number) -> Number:
-  doc: "Gives the cost of a ride based on the how long it lasted and the time"
+  doc: "Gives the cost of a ride based on the how long it lasted and the rate"
   
   l * p
   
